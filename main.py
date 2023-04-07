@@ -4,12 +4,14 @@ from selenium.webdriver.common.by import By
 import time
 import os
 
+# SETTING CONSTANTS
 TWITTER_USER = os.environ.get("TWITTER_USER")
 TWITTER_PASS = os.environ.get("TWITTER_PASS")
 PROMISED_DOWN = 400
 PROMISED_UP = 10
 CHROME_DRIVER_PATH = Service("/Users/briantapia/Documents/Development/chromedriver")
 
+# WEBDRIVER CREATION
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 
@@ -19,9 +21,12 @@ down_speed = 0
 up_speed = 0
 
 class InternetSpeedTwitterBot:
+    # WEBDRIVER CREATION
     def __init__(self, driver_path):
         self.driver = webdriver.Chrome(service=CHROME_DRIVER_PATH, options=options)
-
+    
+    # HAVE BOT TEST CURRENT INTERNET SPEEDS
+    # SAVE CURRENT UP AND DOWN SPEEDS TO COMPARE TO PROMISED UP AND DOWN
     def get_internet_speed(self):
         global complaint, up_speed, down_speed
         self.driver.get("https://www.google.com/search?q=speed+test&rlz=1C5CHFA_enUS1011US1011&oq=speed+test&aqs=chrome..69i57j69i60.3144j0j7&sourceid=chrome&ie=UTF-8")
@@ -39,6 +44,7 @@ class InternetSpeedTwitterBot:
         complaint = f"@xfinity Why are my download/upload speeds so bad? I'm promised 400mbps down and 10mbps up," \
                     f" I'm currently only getting {down_speed}mbps down and {up_speed}mbps up. What gives?!  "
 
+        # PIECE TWEET TOGETHER AND SEND
     def tweet(self):
         global complaint, up_speed, down_speed
         self.driver.get("https://twitter.com/i/flow/login")
